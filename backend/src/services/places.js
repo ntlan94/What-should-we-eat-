@@ -1,7 +1,16 @@
 /**
- * Fetches nearby restaurants from the Geoapify Places API.
- * Free plan: 3,000 credits/day, no credit card, so it can never bill us.
+ * ============================================================================
+ * Project: What Should We Eat?
+ * File: backend/src/services/places.js
+ * Description: Fetches nearby restaurants from the Geoapify Places API.
+ *              Free plan: 3,000 credits/day, no credit card, so it can never bill us.
+ * Author: Jovian Niko Soesilo
+ * Date Created: 2026-11-17
+ * Last Modified: 2026-11-17
+ * Modified by: Jovian Niko Soesilo
+ * ============================================================================
  */
+
 import Restaurant from '../models/Restaurant.js';
 
 const CATEGORIES = 'catering.restaurant,catering.fast_food,catering.cafe';
