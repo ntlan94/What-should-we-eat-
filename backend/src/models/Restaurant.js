@@ -13,14 +13,17 @@
  * ============================================================================
  */
 
+import OpeningHours from 'opening_hours';
+
 export default class Restaurant {
-  constructor({ id, name, cuisine, distance, address, openingHours, lat, lng }) {
+  constructor({ id, name, cuisine, distance, address, openingHours, isOpenNow, lat, lng }) {
     this.id = id;
     this.name = name;
     this.cuisine = cuisine;           // e.g. "pizza", "sushi", "fast_food", "cafe"
     this.distance = distance;         // metres from the search point
     this.address = address;
     this.openingHours = openingHours; // raw OpenStreetMap format, or null
+    this.isOpenNow = isOpenNow;       // true, false, or null if hours unknown
     this.lat = lat;
     this.lng = lng;
   }
@@ -34,6 +37,7 @@ export default class Restaurant {
       distance: p.distance ?? null,
       address: p.address_line2 ?? p.formatted ?? null,
       openingHours: p.opening_hours ?? null,
+      isOpenNow: Restaurant.#checkOpenNow(p.opening_hours),
       lat: p.lat,
       lng: p.lon,
     });
@@ -50,5 +54,16 @@ export default class Restaurant {
     if (categories.includes('catering.fast_food')) return 'fast_food';
     if (categories.includes('catering.cafe')) return 'cafe';
     return 'restaurant';
+  }
+
+  // Reads OpenStreetMap hours text. Returns null when hours are missing or unreadable.
+  static #checkOpenNow(hoursText) {
+    if (!hoursText) return null;
+    try {
+      const hours = new OpeningHours(hoursText, null, { mode: 0 });
+      return hours.getUnknown() ? null : hours.getState();
+    } catch {
+      return null; // badly formatted hours text
+    }
   }
 }
