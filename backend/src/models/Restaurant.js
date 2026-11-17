@@ -6,6 +6,7 @@
  *              Geoapify has no photos or ratings, so the frontend picks a stock
  *              image from assets/ based on `cuisine`.
  * Author: Jovian Niko Soesilo
+ * Colaborators: Thanh Lan Ngo
  * Date Created: 2026-11-17
  * Last Modified: 2026-11-17
  * Modified by: Jovian Niko Soesilo
