@@ -1,1 +1,30 @@
+<!--
+  ============================================================================
+  Project: What Should We Eat? (Multiplayer Restaurant Picker)
+  File: frontend/index.html
+  Description: Main HTML entry point for the mobile-first web application.
+  Author: Thanh Lan Ngo
+  Date Created: 2026-11-16
+  Date of Latest Changes: 2026-11-17
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What Should We Eat?</title>
+  <!-- Tailwind Play CDN for utility styling without a build step -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Global CSS -->
+  <link rel="stylesheet" href="./src/assets/style.css" />
+</head>
+<body class="bg-gradient-to-br from-orange-50 via-amber-50 to-rose-100 min-h-screen font-sans text-slate-800 antialiased selection:bg-orange-500 selection:text-white">
+  
+  <!-- Root Application Container -->
+  <main id="app" class="min-h-screen flex flex-col justify-center items-center p-4"></main>
 
+  <!-- Main OOP Application Controller -->
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
