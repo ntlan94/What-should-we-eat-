@@ -1,8 +1,17 @@
 /**
- * Standard restaurant format sent to the frontend swipe cards.
- * Geoapify has no photos or ratings, so the frontend picks a stock
- * image from assets/ based on `cuisine`.
+ * ============================================================================
+ * Project: What Should We Eat?
+ * File: backend/src/models/Restaurant.js
+ * Description: Standard restaurant format sent to the frontend swipe cards.
+ *              Geoapify has no photos or ratings, so the frontend picks a stock
+ *              image from assets/ based on `cuisine`.
+ * Author: Jovian Niko Soesilo
+ * Date Created: 2026-11-17
+ * Last Modified: 2026-11-17
+ * Modified by: Jovian Niko Soesilo
+ * ============================================================================
  */
+
 export default class Restaurant {
   constructor({ id, name, cuisine, distance, address, openingHours, lat, lng }) {
     this.id = id;

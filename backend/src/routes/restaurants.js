@@ -1,7 +1,16 @@
 /**
- * GET /api/restaurants?lat=..&lng=..&radius=..
- * Returns nearby restaurants in the standard Restaurant format.
+ * ============================================================================
+ * Project: What Should We Eat?
+ * File: backend/src/routes/restaurants.js
+ * Description: GET /api/restaurants?lat=..&lng=..&radius=..
+ *              Returns nearby restaurants in the standard Restaurant format.
+ * Author: Jovian Niko Soesilo
+ * Date Created: 2026-11-17
+ * Last Modified: 2026-11-17
+ * Modified by: Jovian Niko Soesilo
+ * ============================================================================
  */
+
 import { Router } from 'express';
 import { getNearbyRestaurants } from '../services/places.js';
 
