@@ -61,6 +61,9 @@ http://localhost:3000/api/health
 http://localhost:3000/api/restaurants?lat=51.5074&lng=-0.1278
 ```
 
+Rooms and restaurant searches require a valid `GEOAPIFY_API_KEY` in `backend/.env`.
+Room state is held in backend memory, so rooms are cleared when the backend restarts.
+
 ### 2. Frontend
 
 Browsers block ES modules on `file://` pages, so double-clicking `index.html` won't work. Serve the folder instead:
@@ -113,6 +116,22 @@ Turns a typed place name into coordinates for `/api/restaurants`.
 ```
 
 Returns `404` if nothing matches.
+
+### Room endpoints
+
+- `POST /api/rooms` creates a room and searches restaurants. Send
+  `{ "location": "Camden", "radiusKm": 3, "member": { "id": "browser-id", "name": "Host" } }`.
+- `POST /api/rooms/:code/join` joins a room with `{ "member": { "id": "browser-id", "name": "Guest" } }`.
+- `GET /api/rooms/:code` returns the latest room state.
+- `POST /api/rooms/:code/swipes` records `{ "memberId": "browser-id", "restaurantId": "...", "direction": "right" }`.
+
+The frontend polls room state every two seconds. By default it connects to the API at
+`http://<frontend-host>:3000/api`; set `window.WSWE_API_BASE_URL` before loading
+`src/app.js` when the backend uses another URL. For example:
+
+```html
+<script>window.WSWE_API_BASE_URL = 'https://api.example.com/api';</script>
+```
 
 ## Team
 

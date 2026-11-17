@@ -35,6 +35,16 @@ export default class Room {
     this.status = 'swiping';
   }
 
+  updateFromServer(state) {
+    this.location = state.location;
+    this.radius = state.radiusKm;
+    this.members = state.members;
+    this.deck = state.restaurants;
+    this.votes = state.votes;
+    this.status = state.status;
+    this.matchedRestaurant = state.matchedRestaurant;
+  }
+
   recordVote(restaurantId, direction) {
     if (direction === 'right') {
       this.votes[restaurantId] = (this.votes[restaurantId] || 0) + 1;

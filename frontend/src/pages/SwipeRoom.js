@@ -15,6 +15,8 @@ import Navbar from '../components/Navbar.js';
 import SwipeCard from '../components/SwipeCard.js';
 import Button from '../components/Button.js';
 import { joinRoomSync } from '../services/sync.js';
+import { submitSwipe } from '../services/api.js';
+import { escapeHtml } from '../utils/html.js';
 
 export default class SwipeRoom {
   constructor({ room, currentUser, onMatchFound, onLeave }) {
@@ -25,26 +27,41 @@ export default class SwipeRoom {
 
     this.currentIndex = 0;
     this.unsubscribeSync = null;
+    this.isSubmitting = false;
 
     this.wrapper = document.createElement('div');
     this.wrapper.className = 'w-full max-w-md mx-auto flex flex-col justify-between min-h-[90vh]';
   }
 
-  handleSwipe(direction) {
+  async handleSwipe(direction) {
     const currentRestaurant = this.room.deck[this.currentIndex];
-    if (!currentRestaurant) return;
+    if (!currentRestaurant || this.isSubmitting) return;
 
-    this.currentUser.recordSwipe(currentRestaurant.id, direction);
-    const matched = this.room.recordVote(currentRestaurant.id, direction);
+    this.isSubmitting = true;
+    try {
+      const state = await submitSwipe(
+        this.room.code,
+        this.currentUser.id,
+        currentRestaurant.id,
+        direction
+      );
+      this.room.updateFromServer(state);
 
-    if (matched) {
-      this.cleanup();
-      this.onMatchFound(matched);
-      return;
+      if (this.room.matchedRestaurant) {
+        this.cleanup();
+        this.onMatchFound(this.room.matchedRestaurant);
+        return;
+      }
+
+      this.currentIndex += 1;
+      this.renderDeckArea();
+    } catch (error) {
+      const toastBanner = this.wrapper.querySelector('#sync-toast');
+      toastBanner.textContent = error.message;
+      toastBanner.classList.remove('hidden');
+    } finally {
+      this.isSubmitting = false;
     }
-
-    this.currentIndex += 1;
-    this.renderDeckArea();
   }
 
   cleanup() {
@@ -65,7 +82,7 @@ export default class SwipeRoom {
       metaBar.className = 'flex justify-between items-center w-full max-w-sm mx-auto mb-3 px-1';
       metaBar.innerHTML = `
         <span class="text-xs font-bold uppercase tracking-wider text-slate-400">
-          Near ${this.room.location} (${this.room.radius} km)
+          Near ${escapeHtml(this.room.location)} (${escapeHtml(this.room.radius)} km)
         </span>
         <span class="text-xs font-extrabold text-orange-600 bg-orange-100/80 px-2.5 py-1 rounded-full">
           ${this.currentIndex + 1} / ${this.room.deck.length}
@@ -141,13 +158,19 @@ export default class SwipeRoom {
 
     this.renderDeckArea();
 
-    // Connect simulated real-time listener
+    // Poll the backend so members see room changes and matches.
     this.unsubscribeSync = joinRoomSync(this.room, (event) => {
       navbar.updateMemberCount(this.room.members.length);
       if (event.type === 'MEMBER_JOINED') {
-        toastBanner.textContent = `${event.memberName} joined the room!`;
+        toastBanner.textContent = `${event.memberCount} foodies are in the room!`;
         toastBanner.classList.remove('hidden');
         setTimeout(() => toastBanner.classList.add('hidden'), 3000);
+      } else if (event.type === 'MATCH_FOUND') {
+        this.cleanup();
+        this.onMatchFound(event.restaurant);
+      } else if (event.type === 'SYNC_ERROR') {
+        toastBanner.textContent = `Room sync failed: ${event.error.message}`;
+        toastBanner.classList.remove('hidden');
       }
     });
 

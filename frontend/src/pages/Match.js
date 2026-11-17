@@ -12,6 +12,7 @@
  */
 
 import Button from '../components/Button.js';
+import { escapeHtml } from '../utils/html.js';
 
 export default class Match {
   constructor({ restaurant, roomCode, onRestart }) {
@@ -41,22 +42,24 @@ export default class Match {
       <div class="w-full bg-white p-4 rounded-3xl shadow-2xl text-slate-800 mb-6">
         <div class="aspect-[4/3] bg-slate-100 rounded-2xl mb-4 overflow-hidden relative">
           <img
-            src="${this.restaurant.image}"
-            alt="${this.restaurant.name}"
+            src="${escapeHtml(this.restaurant.image)}"
+            alt="${escapeHtml(this.restaurant.name)}"
             class="w-full h-full object-cover"
           />
-          <span class="absolute top-3 right-3 bg-amber-400 text-slate-950 text-xs font-black px-3 py-1 rounded-full shadow">
-            ★ ${this.restaurant.rating}
-          </span>
+          ${Number.isFinite(this.restaurant.rating) ? `
+            <span class="absolute top-3 right-3 bg-amber-400 text-slate-950 text-xs font-black px-3 py-1 rounded-full shadow">
+              ★ ${escapeHtml(this.restaurant.rating)}
+            </span>
+          ` : ''}
         </div>
 
         <div class="text-left px-1">
-          <h2 class="text-2xl font-black text-slate-900">${this.restaurant.name}</h2>
+          <h2 class="text-2xl font-black text-slate-900">          ${escapeHtml(this.restaurant.name)}</h2>
           <p class="text-xs font-bold text-orange-600 mt-0.5 mb-2">
-            ${this.restaurant.price || '$$'} • ${this.restaurant.address}
+            ${escapeHtml(this.restaurant.cuisine || 'Restaurant')} • ${escapeHtml(this.restaurant.address || '')}
           </p>
           <p class="text-sm text-slate-600 leading-relaxed">
-            ${this.restaurant.description}
+            ${escapeHtml(this.restaurant.description)}
           </p>
         </div>
       </div>

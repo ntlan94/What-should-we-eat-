@@ -12,6 +12,7 @@
  */
 
 import Button from '../components/Button.js';
+import { escapeHtml } from '../utils/html.js';
 
 export default class Home {
   constructor({ onCreateRoom, onJoinRoom }) {
@@ -131,13 +132,13 @@ export default class Home {
         <input
           id="location-input"
           type="text"
-          value="${this.location}"
+          value="${escapeHtml(this.location)}"
           placeholder="Enter suburb, zip, or neighborhood..."
           class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
           required
         />
         <p class="text-xs text-slate-400 mt-1.5">
-          Ready to connect to Google Places Autocomplete
+          Restaurants will be searched near this location.
         </p>
       </div>
 
@@ -170,6 +171,7 @@ export default class Home {
         </div>
       </div>
 
+      <p id="form-error" class="hidden text-sm font-semibold text-rose-600" role="alert"></p>
       <div id="create-btn-slot"></div>
     `;
 
@@ -212,10 +214,18 @@ export default class Home {
       if (!this.location.trim()) return;
       submitButton.setDisabled(true);
       submitButton.setText('Finding Restaurants...');
-      await this.onCreateRoom({
-        location: this.location.trim(),
-        radius: this.radius
-      });
+      try {
+        await this.onCreateRoom({
+          location: this.location.trim(),
+          radius: this.radius
+        });
+      } catch (error) {
+        const errorMessage = form.querySelector('#form-error');
+        errorMessage.textContent = error.message;
+        errorMessage.classList.remove('hidden');
+        submitButton.setText('Create Room');
+        submitButton.setDisabled(!this.location.trim());
+      }
     });
 
     return form;
@@ -233,7 +243,7 @@ export default class Home {
         <input
           id="room-code-input"
           type="text"
-          value="${this.roomCode}"
+          value="${escapeHtml(this.roomCode)}"
           placeholder="ABCD"
           maxlength="4"
           class="w-full py-5 px-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-center text-3xl font-black tracking-[0.45em] uppercase text-slate-800 placeholder-slate-300 focus:outline-none focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 transition-all"
@@ -244,6 +254,7 @@ export default class Home {
         </p>
       </div>
 
+      <p id="form-error" class="hidden text-sm font-semibold text-rose-600" role="alert"></p>
       <div id="join-btn-slot"></div>
     `;
 
@@ -268,7 +279,15 @@ export default class Home {
       if (this.roomCode.length < 4) return;
       joinButton.setDisabled(true);
       joinButton.setText('Joining Room...');
-      await this.onJoinRoom({ roomCode: this.roomCode });
+      try {
+        await this.onJoinRoom({ roomCode: this.roomCode });
+      } catch (error) {
+        const errorMessage = form.querySelector('#form-error');
+        errorMessage.textContent = error.message;
+        errorMessage.classList.remove('hidden');
+        joinButton.setText('Join Room');
+        joinButton.setDisabled(this.roomCode.length < 4);
+      }
     });
 
     return form;

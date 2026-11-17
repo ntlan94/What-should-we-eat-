@@ -11,6 +11,8 @@
  * ============================================================================
  */
 
+import { escapeHtml } from '../utils/html.js';
+
 export default class Navbar {
   constructor({ roomCode, memberCount = 1, onLeave }) {
     this.roomCode = roomCode;
@@ -56,7 +58,7 @@ export default class Navbar {
       badge.className = 'bg-orange-50 px-3.5 py-1.5 rounded-xl border border-orange-200';
       badge.innerHTML = `
         <span class="text-[10px] font-bold text-orange-500 uppercase tracking-wider">Room</span>
-        <span class="ml-1.5 font-black text-slate-800 tracking-widest text-sm">${this.roomCode}</span>
+        <span class="ml-1.5 font-black text-slate-800 tracking-widest text-sm">${escapeHtml(this.roomCode)}</span>
       `;
       nav.appendChild(badge);
     }
