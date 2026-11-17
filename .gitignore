@@ -1,1 +1,10 @@
+# Dependencies
+node_modules/
 
+# Secrets - never commit these
+.env
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
