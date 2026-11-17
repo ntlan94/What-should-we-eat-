@@ -2,7 +2,7 @@
  * ============================================================================
  * Project: What Should We Eat?
  * File: backend/src/routes/restaurants.js
- * Description: GET /api/restaurants?lat=..&lng=..&radius=..
+ * Description: GET /api/restaurants?lat=..&lng=..&radius=..&openNow=true
  *              Returns nearby restaurants in the standard Restaurant format.
  * Author: Jovian Niko Soesilo
  * Colaborators: Thanh Lan Ngo
@@ -21,13 +21,18 @@ router.get('/', async (req, res) => {
   const lat = Number(req.query.lat);
   const lng = Number(req.query.lng);
   const radius = Number(req.query.radius) || 2000; // metres
+  const openNowOnly = req.query.openNow === 'true';
 
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
     return res.status(400).json({ error: 'lat and lng query parameters are required' });
   }
 
   try {
-    const restaurants = await getNearbyRestaurants({ lat, lng, radius });
+    let restaurants = await getNearbyRestaurants({ lat, lng, radius });
+    if (openNowOnly) {
+      // Hide places known to be closed; keep ones with unknown hours.
+      restaurants = restaurants.filter((r) => r.isOpenNow !== false);
+    }
     res.json(restaurants);
   } catch (err) {
     console.error(err);
