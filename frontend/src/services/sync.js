@@ -1,3 +1,10 @@
+/**
+ * Project: What Should We Eat?
+ * File: frontend/src/services/sync.js
+ * Description: Polls the backend for room updates.
+ * Modified by: Thanh Lan Ngo
+ */
+
 import { fetchRoom } from './api.js';
 
 export function joinRoomSync(room, onRoomUpdated) {

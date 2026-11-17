@@ -1,3 +1,10 @@
+/**
+ * Project: What Should We Eat?
+ * File: backend/src/controllers/roomController.js
+ * Description: Handles room creation, joining, state, and swipe requests.
+ * Modified by: Thanh Lan Ngo
+ */
+
 import { createRoom, getRoom, joinRoom, recordSwipe } from '../services/database.js';
 import { geocode } from '../services/geocode.js';
 import { getNearbyRestaurants } from '../services/places.js';

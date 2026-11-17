@@ -1,3 +1,10 @@
+/**
+ * Project: What Should We Eat?
+ * File: backend/test/room.test.js
+ * Description: Tests shared room membership and swipe behavior.
+ * Modified by: Thanh Lan Ngo
+ */
+
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRoom, getRoom, joinRoom, recordSwipe } from '../src/services/database.js';

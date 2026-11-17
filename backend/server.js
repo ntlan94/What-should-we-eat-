@@ -7,7 +7,7 @@
  * Colaborators: Thanh Lan Ngo
  * Date Created: 2026-11-17
  * Last Modified: 2026-11-17
- * Modified by: Jovian Niko Soesilo
+ * Modified by: Thanh Lan Ngo
  * ============================================================================
  */
 

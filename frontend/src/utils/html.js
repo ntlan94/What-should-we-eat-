@@ -1,3 +1,10 @@
+/**
+ * Project: What Should We Eat?
+ * File: frontend/src/utils/html.js
+ * Description: Escapes values inserted into HTML templates.
+ * Modified by: Thanh Lan Ngo
+ */
+
 const HTML_ESCAPE_MAP = {
   '&': '&amp;',
   '<': '&lt;',

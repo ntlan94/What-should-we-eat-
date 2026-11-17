@@ -1,3 +1,10 @@
+/**
+ * Project: What Should We Eat?
+ * File: frontend/src/services/api.js
+ * Description: Frontend API client for backend room operations.
+ * Modified by: Thanh Lan Ngo
+ */
+
 const API_BASE_URL = (
   window.WSWE_API_BASE_URL || `http://${window.location.hostname || 'localhost'}:3000/api`
 ).replace(/\/$/, '');

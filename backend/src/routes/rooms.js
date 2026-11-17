@@ -1,3 +1,10 @@
+/**
+ * Project: What Should We Eat?
+ * File: backend/src/routes/rooms.js
+ * Description: Express routes for room actions.
+ * Modified by: Thanh Lan Ngo
+ */
+
 import { Router } from 'express';
 import {
   createRoomHandler,

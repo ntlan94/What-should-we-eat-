@@ -1,3 +1,10 @@
+/**
+ * Project: What Should We Eat?
+ * File: backend/src/services/database.js
+ * Description: In-memory storage for rooms, members, and swipes.
+ * Modified by: Thanh Lan Ngo
+ */
+
 const rooms = new Map();
 
 function toPublicRoom(room) {
