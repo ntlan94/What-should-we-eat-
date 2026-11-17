@@ -4,6 +4,7 @@
  * File: frontend/src/components/Navbar.js
  * Description: Reusable top navigation bar showing room code and member count.
  * Author: Thanh Lan Ngo
+ * Colaborators: Jovian Niko Soesilo
  * Date Created: 2026-11-16
  * Latest Modified: 2026-11-17
  * Modified by: Thanh Lan Ngo
