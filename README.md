@@ -77,6 +77,7 @@ Browsers block ES modules on `file://` pages, so double-clicking `index.html` wo
 | `lat` | yes | Latitude of the search centre |
 | `lng` | yes | Longitude of the search centre |
 | `radius` | no | Search radius in metres (default `2000`) |
+| `openNow` | no | `true` hides places known to be closed (unknown hours are kept) |
 
 Returns up to 20 places, closest first:
 
@@ -89,13 +90,14 @@ Returns up to 20 places, closest first:
     "distance": 42,
     "address": "60-61 Trafalgar Square, London, WC2N 5DS, United Kingdom",
     "openingHours": "Mo-Fr 06:30-21:00; Sa 07:00-21:00; Su 07:30-20:00",
+    "isOpenNow": true,
     "lat": 51.5072772,
     "lng": -0.1283651
   }
 ]
 ```
 
-Geoapify has no photos or ratings, so the frontend shows a stock image based on `cuisine`. `openingHours` may be `null`.
+Geoapify has no photos or ratings, so the frontend shows a stock image based on `cuisine`. `openingHours` may be `null`. `isOpenNow` is `true`, `false`, or `null` when the hours are unknown (checked against the server's clock).
 
 ### `GET /api/geocode`
 
