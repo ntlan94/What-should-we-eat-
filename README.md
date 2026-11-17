@@ -65,8 +65,9 @@ http://localhost:3000/api/restaurants?lat=51.5074&lng=-0.1278
 
 Browsers block ES modules on `file://` pages, so double-clicking `index.html` won't work. Serve the folder instead:
 
+- **Terminal:** `cd frontend && npm start`, then open `http://localhost:4173`, or
 - **VS Code:** install the **Live Server** extension, right-click `frontend/index.html` → **Open with Live Server**, or
-- **Terminal:** `npx serve frontend`
+- **Terminal:** from the repository root, run `npx serve frontend`
 
 ## API
 
