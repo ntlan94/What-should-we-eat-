@@ -1,0 +1,9 @@
+{
+  "name": "what-should-we-eat-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve . --listen 4173"
+  }
+}

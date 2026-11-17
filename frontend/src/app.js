@@ -13,11 +13,26 @@
 
 import User from './models/User.js';
 import Room from './models/Room.js';
-import { fetchRestaurants } from './services/api.js';
+import { createRoom, joinRoom } from './services/api.js';
 
 import Home from './pages/Home.js';
 import SwipeRoom from './pages/SwipeRoom.js';
 import Match from './pages/Match.js';
+
+function getMemberId() {
+  let memberId = sessionStorage.getItem('wswe-member-id');
+  if (!memberId) {
+    memberId = crypto.randomUUID();
+    sessionStorage.setItem('wswe-member-id', memberId);
+  }
+  return memberId;
+}
+
+function roomFromServer(state) {
+  const room = new Room(state.code, state.location, state.radiusKm);
+  room.updateFromServer(state);
+  return room;
+}
 
 class AppController {
   constructor(rootElement) {
@@ -45,25 +60,24 @@ class AppController {
   }
 
   async handleCreateRoom({ location, radius }) {
-    const generatedCode = Math.random().toString(36).substring(2, 6).toUpperCase();
-
-    this.currentUser = new User('user-1', 'Host', true);
-    this.activeRoom = new Room(generatedCode, location, radius);
-    this.activeRoom.addMember(this.currentUser);
-
-    const restaurants = await fetchRestaurants(location, radius);
-    this.activeRoom.setDeck(restaurants);
+    this.currentUser = new User(getMemberId(), 'Host', true);
+    const state = await createRoom({
+      location,
+      radiusKm: radius,
+      member: { id: this.currentUser.id, name: this.currentUser.name },
+    });
+    this.activeRoom = roomFromServer(state);
 
     this.showSwipeRoom();
   }
 
   async handleJoinRoom({ roomCode }) {
-    this.currentUser = new User('user-2', 'Member', false);
-    this.activeRoom = new Room(roomCode, 'Host Neighborhood', 3);
-    this.activeRoom.addMember(this.currentUser);
-
-    const restaurants = await fetchRestaurants('Host Neighborhood', 3);
-    this.activeRoom.setDeck(restaurants);
+    this.currentUser = new User(getMemberId(), 'Guest', false);
+    const state = await joinRoom(roomCode, {
+      id: this.currentUser.id,
+      name: this.currentUser.name,
+    });
+    this.activeRoom = roomFromServer(state);
 
     this.showSwipeRoom();
   }

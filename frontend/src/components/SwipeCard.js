@@ -11,6 +11,8 @@
  * ============================================================================
  */
 
+import { escapeHtml } from '../utils/html.js';
+
 export default class SwipeCard {
   constructor({ restaurant, onSwipe }) {
     this.restaurant = restaurant;
@@ -26,8 +28,8 @@ export default class SwipeCard {
       <!-- Restaurant Cover Photo -->
       <div class="absolute inset-0 bg-slate-200">
         <img
-          src="${this.restaurant.image}"
-          alt="${this.restaurant.name}"
+          src="${escapeHtml(this.restaurant.image)}"
+          alt="${escapeHtml(this.restaurant.name)}"
           class="w-full h-full object-cover"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/35 to-transparent"></div>
@@ -36,23 +38,25 @@ export default class SwipeCard {
       <!-- Top Price & Rating Badges -->
       <div class="absolute top-4 left-4 right-4 flex justify-between items-center">
         <span class="bg-black/45 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full border border-white/15">
-          ${this.restaurant.price || '$$'}
+          ${escapeHtml(this.restaurant.cuisine || 'Restaurant')}
         </span>
-        <span class="bg-amber-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-full shadow-md">
-          ★ ${this.restaurant.rating}
-        </span>
+        ${Number.isFinite(this.restaurant.rating) ? `
+          <span class="bg-amber-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-full shadow-md">
+            ★ ${escapeHtml(this.restaurant.rating)}
+          </span>
+        ` : ''}
       </div>
 
       <!-- Restaurant Details & Swipe Buttons -->
       <div class="absolute bottom-0 w-full p-6 text-white">
         <h2 class="text-2xl font-black leading-tight drop-shadow-sm mb-1">
-          ${this.restaurant.name}
+          ${escapeHtml(this.restaurant.name)}
         </h2>
         <p class="text-xs text-orange-200 font-semibold mb-2">
-          ${this.restaurant.address}
+          ${escapeHtml(this.restaurant.address)}
         </p>
         <p class="text-white/85 text-sm leading-relaxed mb-6 line-clamp-2">
-          ${this.restaurant.description}
+          ${escapeHtml(this.restaurant.description)}
         </p>
 
         <div class="flex justify-center items-center gap-8">

@@ -1,32 +1,44 @@
 /**
- * ============================================================================
  * Project: What Should We Eat?
  * File: frontend/src/services/sync.js
- * Description: Real-time room synchronization service (Firebase/Supabase ready).
- * Author: Thanh Lan Ngo
- * Colaborators: Jovian Niko Soesilo
- * Date Created: 2026-11-16
- * Lastest Modified: 2026-11-17
+ * Description: Polls the backend for room updates.
  * Modified by: Thanh Lan Ngo
- * ============================================================================
  */
 
+import { fetchRoom } from './api.js';
+
 export function joinRoomSync(room, onRoomUpdated) {
-  console.log(`[SYNC] Subscribed to live updates for room ${room.code}`);
+  let stopped = false;
+  let syncing = false;
+  let knownMemberCount = room.members.length;
 
-  // Simulate a friend joining and liking two spots so you can test matches
-  const timerId = setTimeout(() => {
-    room.addMember({ id: 'friend-1', name: 'Sarah', isHost: false });
-    room.votes['rest-2'] = (room.votes['rest-2'] || 0) + 1;
-    room.votes['rest-3'] = (room.votes['rest-3'] || 0) + 1;
+  const sync = async () => {
+    if (stopped || syncing) return;
+    syncing = true;
+    try {
+      const state = await fetchRoom(room.code);
+      if (stopped) return;
+      room.updateFromServer(state);
 
-    if (onRoomUpdated) {
-      onRoomUpdated({ type: 'MEMBER_JOINED', memberName: 'Sarah' });
+      if (room.members.length > knownMemberCount) {
+        knownMemberCount = room.members.length;
+        onRoomUpdated({ type: 'MEMBER_JOINED', memberCount: knownMemberCount });
+      } else {
+        knownMemberCount = room.members.length;
+      }
+      if (room.matchedRestaurant) {
+        onRoomUpdated({ type: 'MATCH_FOUND', restaurant: room.matchedRestaurant });
+      }
+    } catch (error) {
+      if (!stopped) onRoomUpdated({ type: 'SYNC_ERROR', error });
+    } finally {
+      syncing = false;
     }
-  }, 1200);
+  };
 
+  const timerId = setInterval(sync, 2000);
   return () => {
-    clearTimeout(timerId);
-    console.log(`[SYNC] Unsubscribed from room ${room.code}`);
+    stopped = true;
+    clearInterval(timerId);
   };
 }
