@@ -97,6 +97,20 @@ Returns up to 20 places, closest first:
 
 Geoapify has no photos or ratings, so the frontend shows a stock image based on `cuisine`. `openingHours` may be `null`.
 
+### `GET /api/geocode`
+
+Turns a typed place name into coordinates for `/api/restaurants`.
+
+| Query param | Required | Description |
+|---|---|---|
+| `text` | yes | Place name, e.g. `Camden` |
+
+```json
+{ "lat": 51.5427966, "lng": -0.1624803, "label": "Camden, London, ENG, United Kingdom" }
+```
+
+Returns `404` if nothing matches.
+
 ## Team
 
 - Thanh Lan Ngo
