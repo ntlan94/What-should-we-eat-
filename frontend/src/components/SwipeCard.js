@@ -4,7 +4,7 @@
  * File: frontend/src/components/SwipeCard.js
  * Description: Tinder-style swipeable restaurant card component.
  * Author: Thanh Lan Ngo
- * Colaborators: Jovian Niko Soesilo
+ * Collaborators: Jovian Niko Soesilo
  * Date Created: 2026-11-16
  * Latest Modified: 2026-11-17
  * Modified by: Thanh Lan Ngo

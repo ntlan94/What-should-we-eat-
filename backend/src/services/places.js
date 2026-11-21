@@ -5,7 +5,7 @@
  * Description: Fetches nearby restaurants from the Geoapify Places API.
  *              Free plan: 3,000 credits/day, no credit card, so it can never bill us.
  * Author: Jovian Niko Soesilo
- * Colaborators: Thanh Lan Ngo
+ * Collaborators: Thanh Lan Ngo
  * Date Created: 2026-11-17
  * Last Modified: 2026-11-17
  * Modified by: Jovian Niko Soesilo
