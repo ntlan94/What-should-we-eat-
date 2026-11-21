@@ -140,6 +140,16 @@ Each location is downloaded from Geoapify once, then served from memory (and cac
 - `GET /api/rooms/:code` returns the latest room state.
 - `POST /api/rooms/:code/swipes` records `{ "memberId": "browser-id", "restaurantId": "...", "direction": "right" }`.
 
+Every room response has a `status`:
+
+| `status` | Meaning |
+|---|---|
+| `swiping` | Still going (or only one person in the room) |
+| `matched` | Everyone swiped right on the same place, see `matchedRestaurant` |
+| `finished` | Everyone swiped every card with no full match. `bestRestaurant` is the place with the most right swipes (ties go to the closer place), or `null` if nobody liked anything. `votes[bestRestaurant.id]` gives the count |
+
+If someone joins a `finished` room, it goes back to `swiping` until they finish too.
+
 The frontend polls room state every two seconds. By default it connects to the API at
 `http://<frontend-host>:3000/api`; set `window.WSWE_API_BASE_URL` before loading
 `src/app.js` when the backend uses another URL. For example:
