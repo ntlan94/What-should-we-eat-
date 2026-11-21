@@ -17,6 +17,7 @@ import cors from 'cors';
 import restaurantRoutes from './src/routes/restaurants.js';
 import geocodeRoutes from './src/routes/geocode.js';
 import roomRoutes from './src/routes/rooms.js';
+import mapRoutes from './src/routes/map.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ app.get('/api/health', (req, res) => res.json({ ok: true }));
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/geocode', geocodeRoutes);
 app.use('/api/rooms', roomRoutes);
+app.use('/api/map', mapRoutes);
 
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);
