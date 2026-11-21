@@ -117,6 +117,21 @@ Turns a typed place name into coordinates for `/api/restaurants`.
 
 Returns `404` if nothing matches.
 
+### `GET /api/map`
+
+Returns a 600×400 JPEG map with an orange pin on the location. Use it straight in an image tag, since the backend adds the Geoapify key:
+
+```html
+<img src="http://localhost:3000/api/map?lat=51.5072772&lng=-0.1283651" alt="Map">
+```
+
+| Query param | Required | Description |
+|---|---|---|
+| `lat` | yes | Latitude of the pin |
+| `lng` | yes | Longitude of the pin |
+
+Each location is downloaded from Geoapify once, then served from memory (and cached by the browser for a day) to save free credits.
+
 ### Room endpoints
 
 - `POST /api/rooms` creates a room and searches restaurants. Send
