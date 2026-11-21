@@ -5,10 +5,7 @@
  * Description: GET /api/geocode?text=..
  *              Returns { lat, lng, label } for the best match.
  * Author: Jovian Niko Soesilo
-<<<<<<< HEAD
- * Colaborators: Thanh Lan Ngo
-=======
->>>>>>> main
+ * Collaborators: Thanh Lan Ngo
  * Date Created: 2026-11-17
  * Last Modified: 2026-11-17
  * Modified by: Jovian Niko Soesilo

@@ -4,7 +4,7 @@
  * File: frontend/src/pages/SwipeRoom.js
  * Description: Active multiplayer swipe screen displaying restaurant cards.
  * Author: Thanh Lan Ngo
- * Colaborators: Jovian Niko Soesilo
+ * Collaborators: Jovian Niko Soesilo
  * Date Created: 2026-11-16
  * Latest Modified: 2026-11-17
  * Modified by: Thanh Lan Ngo

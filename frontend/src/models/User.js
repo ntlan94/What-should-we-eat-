@@ -4,7 +4,7 @@
  * File: frontend/src/models/User.js
  * Description: OOP Model class for user state (id, name, host status, swipes).
  * Author: Thanh Lan Ngo
- * Colaborators: Jovian Niko Soesilo
+ * Collaborators: Jovian Niko Soesilo
  * Date Created: 2026-11-16
  * Last Modified: 2026-11-17
  * Modified by: Thanh Lan Ngo

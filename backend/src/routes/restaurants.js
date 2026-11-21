@@ -5,7 +5,7 @@
  * Description: GET /api/restaurants?lat=..&lng=..&radius=..&openNow=true
  *              Returns nearby restaurants in the standard Restaurant format.
  * Author: Jovian Niko Soesilo
- * Colaborators: Thanh Lan Ngo
+ * Collaborators: Thanh Lan Ngo
  * Date Created: 2026-11-17
  * Last Modified: 2026-11-17
  * Modified by: Jovian Niko Soesilo
